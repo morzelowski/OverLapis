@@ -30,7 +30,7 @@ function FileTreeItem({
   depth: number;
   onRefresh: () => void;
 }) {
-  const { openFile, activeTabId, updateTabPath, openTabs } = useAppStore();
+  const { openFile, activeTabId, updateTabPath, openTabs, closeTab } = useAppStore();
   const [expanded, setExpanded] = useState(false);
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const [renaming, setRenaming] = useState(false);
@@ -56,6 +56,12 @@ function FileTreeItem({
   async function handleDelete() {
     setContextMenu(null);
     await deleteFile(node.id);
+    // Close tabs for the deleted file (or children if folder)
+    for (const tab of openTabs) {
+      if (tab.id === node.id || tab.id.startsWith(node.id + '/')) {
+        closeTab(tab.id);
+      }
+    }
     onRefresh();
   }
 

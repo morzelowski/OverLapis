@@ -9,9 +9,15 @@ import { setupWSConnection, setPersistence } from 'y-websocket/bin/utils';
 
 // Track files that have been moved/renamed so stale rooms don't recreate them
 const movedFiles = new Set<string>();
+// Track files that have been deleted so Yjs rooms don't recreate them
+const deletedFiles = new Set<string>();
 
 export function markFileMoved(oldPath: string): void {
   movedFiles.add(oldPath);
+}
+
+export function markFileDeleted(filePath: string): void {
+  deletedFiles.add(filePath);
 }
 
 // Persistence: read/write plain .md files — no .ystate binary blobs
@@ -34,7 +40,7 @@ setPersistence({
     ydoc.on('update', () => {
       if (saveTimeout) clearTimeout(saveTimeout);
       saveTimeout = setTimeout(() => {
-        if (movedFiles.has(docName)) return;
+        if (movedFiles.has(docName) || deletedFiles.has(docName)) return;
         try {
           const ytext = ydoc.getText('content');
           writeFile(docName, ytext.toString());
@@ -46,6 +52,7 @@ setPersistence({
   },
   writeState: async (docName: string, ydoc: Y.Doc) => {
     if (movedFiles.delete(docName)) return;
+    if (deletedFiles.delete(docName)) return;
     try {
       const ytext = ydoc.getText('content');
       writeFile(docName, ytext.toString());

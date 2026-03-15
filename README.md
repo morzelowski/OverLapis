@@ -15,7 +15,7 @@ docker build -t overlapis .
 docker run -d -p 4444:4444 overlapis
 ```
 
-Open http://localhost:4444 in your browser. Share your IP with collaborators on the same network to edit together in real-time.
+Open [http://<local ip>:4444](http://<local ip>:4444). Share your IP with collaborators on the same network to edit together in real-time.
 
 > **Note:** The image declares `/app/docs` as a Docker volume, so your notes survive container restarts automatically. To access files directly from the host, use a bind mount instead:
 >

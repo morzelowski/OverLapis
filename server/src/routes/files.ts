@@ -6,7 +6,7 @@ import {
   renameFileOrFolder,
   deleteFileOrFolder,
 } from '../services/fileSystem.js';
-import { markFileMoved } from '../ws.js';
+import { markFileMoved, markFileDeleted } from '../ws.js';
 
 const router = Router();
 
@@ -62,6 +62,7 @@ router.use('/', (req: Request, res: Response) => {
       renameFileOrFolder(filePath, newPath);
       res.json({ ok: true });
     } else if (req.method === 'DELETE') {
+      markFileDeleted(filePath);
       deleteFileOrFolder(filePath);
       res.json({ ok: true });
     } else {
