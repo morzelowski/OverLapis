@@ -1,0 +1,55 @@
+.file-tree-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  cursor: pointer;
+  font-size: var(--font-size-small);
+  color: var(--text-muted);
+  border-radius: 0;
+  transition: background 0.1s;
+}
+
+.file-tree-item:hover {
+  background: var(--bg-hover);
+  color: var(--text-normal);
+}
+
+.file-tree-item.active {
+  background: var(--bg-active);
+  color: var(--text-normal);
+}
+
+.file-tree-item.drop-target {
+  background: rgba(37, 70, 240, 0.2);
+  outline: 1px solid var(--accent);
+  outline-offset: -1px;
+}
+
+.file-tree-chevron {
+  flex-shrink: 0;
+  transition: transform 0.15s;
+  color: var(--text-faint);
+}
+
+.file-tree-chevron.expanded {
+  transform: rotate(90deg);
+}
+
+.file-tree-icon {
+  flex-shrink: 0;
+  color: var(--text-faint);
+}
+
+.file-tree-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-tree-rename {
+  flex: 1;
+  font-size: var(--font-size-small);
+  padding: 1px 4px;
+  min-width: 0;
+}
